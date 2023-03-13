@@ -14,6 +14,7 @@ class Board {
     Board();
     bool update();
     void printBoard();
+    bool addBot(Player *player);
     bool spawnPlayer(Player *player);
     bool killPlayer(Player *player);
     bool completeTerritory(Player *player);
@@ -29,5 +30,6 @@ class Board {
     std::vector<std::pair<int, int>> spawnLocations;
     int currentSpawnLocation = 0;
 
+    std::minstd_rand0 rng = std::default_random_engine{};
     void generateSpawnLocation();
 };

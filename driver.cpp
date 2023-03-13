@@ -17,7 +17,7 @@ int startGameClock() {
         std::string name = "Bot" + std::to_string(botId);
         Player *player = new Bot(botId++, name);
 
-        bool res = board.spawnPlayer(player);
+        bool res = board.addBot(player);
         std::cout << res << std::endl;
 
         if (time > GAME_DURATION) {

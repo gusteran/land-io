@@ -22,27 +22,38 @@ void Board::generateSpawnLocation() {
             spawnLocations.push_back(std::make_pair(ROWS - 2, col));
         }
     }
-    auto rng = std::default_random_engine{};
     std::shuffle(std::begin(spawnLocations), std::end(spawnLocations), rng);
 }
 
 bool Board::update() {
+    bool shufflePlayers = false;
     for (Player *p : players) {
+        std::cout << "Updating " << p->getName() << std::endl;
         MoveResult res = p->update(field);
         if (res == MoveResult::DEATH) {
             killPlayer(p);
         } else if (res == MoveResult::COMPLETE) {
             completeTerritory(p);
+            shufflePlayers = true;
         }
+    }
+    if (shufflePlayers) {
+        // reshuffle the order of players
+        std::shuffle(std::begin(players), std::end(players), rng);
     }
     return true;
 }
 
-bool Board::spawnPlayer(Player *p) {
+bool Board::addBot(Player *p) {
+
     if (players.size() >= MAX_PLAYERS)
         return false;
 
     players.push_back(p);
+    return spawnPlayer(p);
+}
+
+bool Board::spawnPlayer(Player *p) {
 
     std::pair<int, int> location = spawnLocations[currentSpawnLocation++];
     currentSpawnLocation %= spawnLocations.size();
@@ -58,7 +69,26 @@ bool Board::spawnPlayer(Player *p) {
 }
 
 bool Board::killPlayer(Player *player) {
-    // TODO
+    std::cout << "Killing " << player->getName() << std::endl;
+    // TODO if the front of the players trail comes into contact with another
+    // players trail head on collisions are handled with a random shuffling
+    // playerpriority vector when a player dies. change over all their territory
+    // to the tile owner
+    short winnerId =
+        field[player->getLocation().first][player->getLocation().second]
+            .getValue();
+    if (winnerId == player->getID())
+        winnerId = 0; // clear the tiles if the player killed themselves
+
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (field[i][j].getValue() == player->getID())
+                field[i][j].changeValue(winnerId);
+        }
+    }
+
+    // reset and respawn the player
+    spawnPlayer(player);
     return true;
 }
 
