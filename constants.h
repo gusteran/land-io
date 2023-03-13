@@ -14,6 +14,6 @@ enum Direction { NORTH, EAST, SOUTH, WEST, STOPPED };
  * DEATH - dead
  * STEP = movement outside territory
  * COMPLETE = movement inside territory
-*/
+ */
 #define MOVE_RESULT 4
 enum MoveResult { IDLE, DEATH, STEP, COMPLETE };

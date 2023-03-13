@@ -9,7 +9,8 @@ Bot::Bot(short id, std::string name) {
 MoveResult Bot::update(Tile (&field)[ROWS][COLS]) {
     pickMove(field);
     MoveResult res = move(field);
-    if(res == MoveResult::STEP) trail.push_back(location);
+    if (res == MoveResult::STEP)
+        trail.push_back(location);
     return res;
 }
 
@@ -39,7 +40,7 @@ MoveResult Bot::move(Tile (&field)[ROWS][COLS]) {
 }
 
 void Bot::pickMove(Tile (&field)[ROWS][COLS]) {
-    if(!directions.empty()){
+    if (!directions.empty()) {
         direction = directions.back();
         directions.pop_back();
     } else {

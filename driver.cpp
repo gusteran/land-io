@@ -4,6 +4,7 @@ int startGameClock() {
     auto start = std::chrono::steady_clock::now();
     Board board;
     short botId = 1;
+    int ticks = 0;
     while (1) {
         std::cout << std::endl;
 
@@ -31,7 +32,16 @@ int startGameClock() {
 
         board.printBoard();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME));
+        ticks++;
+        end = std::chrono::steady_clock::now();
+        time =
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+                .count();
+
+        time -= ticks * SLEEP_TIME;
+
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(SLEEP_TIME - time));
     }
     return 0;
 }

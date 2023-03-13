@@ -5,9 +5,9 @@
 #include "player.h"
 #include "tile.h"
 #include <algorithm>
+#include <queue>
 #include <random>
 #include <vector>
-#include <queue>
 
 class Board {
   public:
@@ -17,11 +17,11 @@ class Board {
     bool spawnPlayer(Player *player);
     bool killPlayer(Player *player);
     bool completeTerritory(Player *player);
-    std::vector<std::pair<int,int>> getNeighbors(std::pair<int,int> location);
-    bool checkConcavity(Player * player, std::pair<int, int> location);
-    bool fillTerritory(Player * player, std::pair<int, int> location);
-    bool isInBounds(std::pair<int,int> location);
-    bool againstWall(std::pair<int,int> location);
+    std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> location);
+    bool checkConcavity(Player *player, std::pair<int, int> location);
+    bool fillTerritory(Player *player, std::pair<int, int> location);
+    bool isInBounds(std::pair<int, int> location);
+    bool againstWall(std::pair<int, int> location);
 
   private:
     Tile field[ROWS][COLS];

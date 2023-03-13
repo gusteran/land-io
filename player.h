@@ -13,7 +13,7 @@ class Player {
     short getID() { return id; }
     std::string getName() { return name; }
     std::pair<int, int> getLocation() { return location; }
-   
+
     virtual void setLocation(std::pair<int, int> location) {
         this->location = location;
     };
