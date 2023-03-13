@@ -28,13 +28,13 @@ class Player {
     bool facingWall() {
         switch (direction) {
         case NORTH:
-            return location.second == COLS - 1;
-        case SOUTH:
-            return location.second == 0;
-        case EAST:
             return location.first == ROWS - 1;
-        case WEST:
+        case SOUTH:
             return location.first == 0;
+        case EAST:
+            return location.second == COLS - 1;
+        case WEST:
+            return location.second == 0;
         case STOPPED:
             return false;
         };

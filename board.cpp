@@ -74,21 +74,30 @@ bool Board::killPlayer(Player *player) {
     // players trail head on collisions are handled with a random shuffling
     // playerpriority vector when a player dies. change over all their territory
     // to the tile owner
-    short winnerId =
+    short loserId =
         field[player->getLocation().first][player->getLocation().second]
             .getValue();
-    if (winnerId == player->getID())
+    short winnerId = player->getID();
+    if (loserId == winnerId)
         winnerId = 0; // clear the tiles if the player killed themselves
 
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            if (field[i][j].getValue() == player->getID())
+            if (field[i][j].getValue() == loserId)
                 field[i][j].changeValue(winnerId);
         }
     }
 
     // reset and respawn the player
-    spawnPlayer(player);
+    Player *loser = nullptr;
+    for(Player *p : players) {
+        if (p->getID() == loserId) {
+            loser = p;
+            break;
+        }
+    }
+    if(loser == nullptr) return false;
+    spawnPlayer(loser);
     return true;
 }
 

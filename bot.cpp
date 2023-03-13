@@ -22,16 +22,16 @@ MoveResult Bot::move(Tile (&field)[ROWS][COLS]) {
     }
     switch (direction) {
     case NORTH:
-        location.second++;
-        break;
-    case SOUTH:
-        location.second--;
-        break;
-    case EAST:
         location.first++;
         break;
-    case WEST:
+    case SOUTH:
         location.first--;
+        break;
+    case EAST:
+        location.second++;
+        break;
+    case WEST:
+        location.second--;
         break;
     case STOPPED:
         return MoveResult::IDLE;
@@ -55,16 +55,16 @@ bool Bot::facingTrail(Tile (&field)[ROWS][COLS]) {
     std::pair<int, int> nextPos = location;
     switch (direction) {
     case NORTH:
-        nextPos.second++;
-        break;
-    case SOUTH:
-        nextPos.second--;
-        break;
-    case EAST:
         nextPos.first++;
         break;
-    case WEST:
+    case SOUTH:
         nextPos.first--;
+        break;
+    case EAST:
+        nextPos.second++;
+        break;
+    case WEST:
+        nextPos.second--;
         break;
     case STOPPED:
         return false;

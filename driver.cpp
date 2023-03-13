@@ -5,6 +5,17 @@ int startGameClock() {
     Board board;
     short botId = 1;
     int ticks = 0;
+
+    for(int i = 0; i < MAX_PLAYERS; i++) {
+        
+
+        std::string name = "Bot" + std::to_string(botId);
+        Player *player = new Bot(botId++, name);
+
+        bool res = board.addBot(player);
+        std::cout << res << std::endl;
+    }
+
     while (1) {
         std::cout << std::endl;
 
@@ -13,12 +24,6 @@ int startGameClock() {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
                 .count();
         std::cout << "Running board update at " << time << " ms" << std::endl;
-
-        std::string name = "Bot" + std::to_string(botId);
-        Player *player = new Bot(botId++, name);
-
-        bool res = board.addBot(player);
-        std::cout << res << std::endl;
 
         if (time > GAME_DURATION) {
             std::cout << "Game Over!\n";

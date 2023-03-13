@@ -12,7 +12,5 @@ class Bot : public Player {
     void pickMove(Tile (&field)[ROWS][COLS]);
     bool facingTrail(Tile (&field)[ROWS][COLS]);
     MoveResult move(Tile (&field)[ROWS][COLS]);
-    std::vector<Direction> directions = {WEST,  WEST,    WEST,  SOUTH,
-                                         SOUTH, STOPPED, NORTH, EAST,
-                                         EAST,  EAST,    EAST,  NORTH};
+    std::vector<Direction> directions = {EAST, EAST, WEST,  WEST, WEST, WEST};
 };

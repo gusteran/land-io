@@ -9,8 +9,10 @@ void Tile::reset() {
 
 MoveResult Tile::stepOn(short id) {
     // TODO: Implement evaluation of whether a player can step on this tile
-    if (this->isStep)
+    if (this->isStep){
+        std::cout << "Player killed the tile" << std::endl;
         return MoveResult::DEATH;
+    }
     if (this->value == id)
         return MoveResult::COMPLETE;
     this->isStep = true;
