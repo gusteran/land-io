@@ -61,10 +61,113 @@ bool Board::killPlayer(Player *player) {
     // TODO
     return true;
 }
+
+// True if territory is gained, false otherwise
 bool Board::completeTerritory(Player *player) {
     // TODO
+    if(player->trail.empty()) return false;
+
+    bool startConnected = false;
+    bool endConnected = false;
+    std::pair<int, int> fillLocation;
+
+
+    for(std::pair<int,int> neighbor: getNeighbors(player->trail.front())) {
+        startConnected = checkConcavity(player, neighbor);
+        if(startConnected) {
+            fillTerritory(player, neighbor);
+            break;
+        }
+    }
+
+    for(std::pair<int,int> trailTile: player->trail){
+        field[trailTile.first][trailTile.second].clearTrail();
+    }
+    
+    player->trail.clear();
     return true;
 }
+
+//maybe return the area we searched if the capture territory is slow?
+bool Board::fillTerritory(Player * player, std::pair<int, int> location) {
+    std::queue<std::pair<int, int>> q;
+    std::vector<std::vector<bool>> visited(ROWS, std::vector<bool>(COLS, false));
+    q.push(location);
+    visited[location.first][location.second] = true;
+    
+    while(!q.empty()) {
+        std::pair<int, int> curr = q.front();
+        q.pop();
+        visited[curr.first][curr.second] = true;
+
+        // Passes if the tile is owned by this player
+        if(field[curr.first][curr.second].getValue() == player->getID()) continue;
+        field[curr.first][curr.second].changeValue(player->getID());
+
+        for(std::pair<int, int> neighbor : getNeighbors(curr)){
+            if(!visited[neighbor.first][neighbor.second]);
+        }
+        
+    }
+    return true;
+}
+
+// Checks if the tile is a new piece of territory surrounded by
+// this players tiles
+bool Board::checkConcavity(Player * player, std::pair<int, int> location) {
+    if(field[location.first][location.second].getValue() == player->getID()) return false;
+
+    std::queue<std::pair<int, int>> q;
+    std::vector<std::vector<bool>> visited(ROWS, std::vector<bool>(COLS, false));
+    q.push(location);
+    visited[location.first][location.second] = true;
+    
+    while(!q.empty()) {
+        std::pair<int, int> curr = q.front();
+        q.pop();
+        visited[curr.first][curr.second] = true;
+
+        // The territory cannot be concanve if the flood fill reaches a wall
+        if(againstWall(curr)) return false;
+
+        // Passes if the tile is owned by this player
+        if(field[curr.first][curr.second].getValue() == player->getID()) continue;
+
+        for(std::pair<int, int> neighbor : getNeighbors(curr)){
+            if(!visited[neighbor.first][neighbor.second]);
+        }
+        
+    }
+    return true;
+}
+
+std::vector<std::pair<int,int>> Board::getNeighbors(std::pair<int,int> location){
+    std::vector<std::pair<int,int>> validNeighbors;
+    // up down
+    std::pair<int,int> up = std::make_pair(location.first + 1, location.second);
+    std::pair<int,int> down = std::make_pair(location.first - 1, location.second );
+    
+    //left right
+    std::pair<int,int> left = std::make_pair(location.first , location.second - 1);
+    std::pair<int,int> right = std::make_pair(location.first , location.second + 1);
+
+    if(isInBounds(up)) validNeighbors.push_back(up);
+    if(isInBounds(down)) validNeighbors.push_back(down);
+    if(isInBounds(left)) validNeighbors.push_back(left);
+    if(isInBounds(right)) validNeighbors.push_back(right);
+
+    return validNeighbors;
+        
+}
+
+bool Board::isInBounds(std::pair<int,int> location){
+    return location.first <= ROWS && location.first >= 0 && location.second <= COLS && location.second >= 0;
+}
+
+bool Board::againstWall(std::pair<int,int> location){
+    return location.first == ROWS-1 || location.first == 0 || location.second == COLS-1 || location.second == 0;
+}
+
 
 void Board::printBoard() {
     std::cout << "spawn locations: ";

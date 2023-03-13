@@ -18,6 +18,7 @@ MoveResult Tile::stepOn(short id) {
     return MoveResult::STEP;
 }
 
+// Changes the value of the tile to the player and clears the trail
 bool Tile::changeValue(short id) {
     // TODO: Implement evaluation of whether a player can step on this tile
     this->value = id;

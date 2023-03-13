@@ -8,9 +8,11 @@ class Tile {
     Tile();
     MoveResult stepOn(short id);
     bool changeValue(short id);
+    short getValue() { return value; }
     void reset();
     void printTile();
     bool isTrail() { return isStep; }
+    void clearTrail() { isStep = false; }
 
   private:
     short value;

@@ -8,7 +8,9 @@ Bot::Bot(short id, std::string name) {
 
 MoveResult Bot::update(Tile (&field)[ROWS][COLS]) {
     pickMove(field);
-    return move(field);
+    MoveResult res = move(field);
+    if(res == MoveResult::STEP) trail.push_back(location);
+    return res;
 }
 
 // Returns true if legal move, returns false if they die
@@ -37,10 +39,15 @@ MoveResult Bot::move(Tile (&field)[ROWS][COLS]) {
 }
 
 void Bot::pickMove(Tile (&field)[ROWS][COLS]) {
-    direction = Direction(rand() % DIRECTIONS);
-    std::cout << "bot " << id << " picking move " << direction << std::endl;
-    if (facingWall() || facingTrail(field))
-        pickMove(field);
+    if(!directions.empty()){
+        direction = directions.back();
+        directions.pop_back();
+    } else {
+        direction = Direction(rand() % DIRECTIONS);
+        std::cout << "bot " << id << " picking move " << direction << std::endl;
+        if (facingWall() || facingTrail(field))
+            pickMove(field);
+    }
 }
 
 bool Bot::facingTrail(Tile (&field)[ROWS][COLS]) {
