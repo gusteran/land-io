@@ -90,13 +90,14 @@ bool Board::killPlayer(Player *player) {
 
     // reset and respawn the player
     Player *loser = nullptr;
-    for(Player *p : players) {
+    for (Player *p : players) {
         if (p->getID() == loserId) {
             loser = p;
             break;
         }
     }
-    if(loser == nullptr) return false;
+    if (loser == nullptr)
+        return false;
     spawnPlayer(loser);
     return true;
 }

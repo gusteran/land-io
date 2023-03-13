@@ -6,8 +6,7 @@ int startGameClock() {
     short botId = 1;
     int ticks = 0;
 
-    for(int i = 0; i < MAX_PLAYERS; i++) {
-        
+    for (int i = 0; i < MAX_PLAYERS; i++) {
 
         std::string name = "Bot" + std::to_string(botId);
         Player *player = new Bot(botId++, name);
