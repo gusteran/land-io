@@ -14,6 +14,8 @@ class Board {
     bool update();
     void printBoard();
     bool spawnPlayer(Player *player);
+    bool killPlayer(Player *player);
+    bool completeTerritory(Player *player);
 
   private:
     Tile field[ROWS][COLS];
