@@ -1,12 +1,12 @@
-CC = g++
+CC = clang++
 CFLAGS = -Weverything
 BIN = land-server
 
-$(BIN): driver.o
+$(BIN): driver.o board.o 
 	$(CC) $^ -o $@
 %.o: %.cpp *.h
 	$(CC) -c $< -o $@ $(CFLAGS)
 format:
-	clang-format -i -style=file *.[ch]
+	clang-format -i -style=file *.cpp *.h
 clean:
 	rm *.o $(BIN)
