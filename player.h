@@ -1,8 +1,8 @@
 #pragma once
 
 #include "constants.h"
-#include <string>
 #include "tile.h"
+#include <string>
 
 // Abstact class to define the player interface
 class Player {

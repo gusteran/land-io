@@ -13,8 +13,8 @@ MoveResult Bot::update(Tile (&field)[ROWS][COLS]) {
 
 // Returns true if legal move, returns false if they die
 MoveResult Bot::move(Tile (&field)[ROWS][COLS]) {
-    if (facingWall()){
-        std::cout << "bot "<< id << " is facing a wall" << std::endl;
+    if (facingWall()) {
+        std::cout << "bot " << id << " is facing a wall" << std::endl;
         return MoveResult::IDLE;
     }
     switch (direction) {
@@ -38,8 +38,9 @@ MoveResult Bot::move(Tile (&field)[ROWS][COLS]) {
 
 void Bot::pickMove(Tile (&field)[ROWS][COLS]) {
     direction = Direction(rand() % DIRECTIONS);
-    std::cout << "bot "<< id << " picking move " << direction << std::endl;
-    if(facingWall() || facingTrail(field)) pickMove(field);
+    std::cout << "bot " << id << " picking move " << direction << std::endl;
+    if (facingWall() || facingTrail(field))
+        pickMove(field);
 }
 
 bool Bot::facingTrail(Tile (&field)[ROWS][COLS]) {

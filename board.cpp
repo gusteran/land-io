@@ -29,9 +29,9 @@ void Board::generateSpawnLocation() {
 bool Board::update() {
     for (Player *p : players) {
         MoveResult res = p->update(field);
-        if(res == MoveResult::DEATH){
+        if (res == MoveResult::DEATH) {
             killPlayer(p);
-        } else if(res == MoveResult::COMPLETE){
+        } else if (res == MoveResult::COMPLETE) {
             completeTerritory(p);
         }
     }
@@ -57,15 +57,14 @@ bool Board::spawnPlayer(Player *p) {
     return true;
 }
 
-
-    bool Board::killPlayer(Player *player){
-        // TODO
-        return true;
-    }
-    bool Board::completeTerritory(Player *player){
-        // TODO
-        return true;
-    }
+bool Board::killPlayer(Player *player) {
+    // TODO
+    return true;
+}
+bool Board::completeTerritory(Player *player) {
+    // TODO
+    return true;
+}
 
 void Board::printBoard() {
     std::cout << "spawn locations: ";

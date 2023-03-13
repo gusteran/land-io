@@ -11,7 +11,7 @@ MoveResult Tile::stepOn(short id) {
     // TODO: Implement evaluation of whether a player can step on this tile
     if (this->isStep)
         return MoveResult::DEATH;
-    if(this->value == id)
+    if (this->value == id)
         return MoveResult::COMPLETE;
     this->isStep = true;
     this->value = id;
