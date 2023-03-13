@@ -2,7 +2,7 @@ CC = clang++
 CFLAGS = -Weverything
 BIN = land-server
 
-$(BIN): driver.o board.o 
+$(BIN): driver.o board.o tile.o
 	$(CC) $^ -o $@
 %.o: %.cpp *.h
 	$(CC) -c $< -o $@ $(CFLAGS)

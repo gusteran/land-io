@@ -3,18 +3,18 @@
 
 #include "constants.h"
 #include "player.h"
+#include "tile.h"
 #include <algorithm>
 #include <vector>
 
 class Board {
-public:
-  Board();
-  bool update();
+  public:
+    Board();
+    bool update();
 
-private:
-  short field[ROWS][COLS];
-  std::vector<Player*> players;
+  private:
+    Tile field[ROWS][COLS];
+    std::vector<Player *> players;
 };
-
 
 #endif

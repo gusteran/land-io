@@ -1,13 +1,5 @@
 #include "board.h"
 
-Board::Board(){
-    for(int i = 0; i < ROWS; i++){
-        for(int j = 0; j < COLS; j++){
-            this->field[i][j] = 0;
-        }
-    }
-}
+Board::Board() {}
 
-bool Board::update(){
-    return true;
-}
+bool Board::update() { return true; }

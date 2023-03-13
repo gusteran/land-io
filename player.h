@@ -5,13 +5,12 @@
 
 // Abstact class to define the player interface
 class Player {
-public:
-bool update();
+  public:
+    bool update();
 
-private:
-bool move();
-bool turn(Direction direction);
-    
+  private:
+    bool move();
+    bool turn(Direction direction);
 };
 
 #endif

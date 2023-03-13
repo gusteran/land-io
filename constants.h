@@ -6,11 +6,6 @@
 #define MAX_PLAYERS 8
 #define SLEEP_TIME 500
 
-enum Direction {
-    NORTH,
-    EAST,
-    SOUTH,
-    WEST
-};
+enum Direction { NORTH, EAST, SOUTH, WEST };
 
 #endif
