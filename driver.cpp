@@ -13,7 +13,8 @@ int startGameClock() {
                 .count();
         std::cout << "Running board update at " << time << " ms" << std::endl;
 
-        Player * player = new Bot(botId++, "player"+botId);
+        std::string name = "Bot" + std::to_string(botId);
+        Player *player = new Bot(botId++, name);
 
         bool res = board.spawnPlayer(player);
         std::cout << res << std::endl;

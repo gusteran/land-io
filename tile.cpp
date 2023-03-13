@@ -11,7 +11,7 @@ bool Tile::stepOn(short id) {
     // TODO: Implement evaluation of whether a player can step on this tile
     if (this->isStep)
         return false;
-    this->isStep = true;
+    this->isStep = this->value != id;
     this->value = id;
     return true;
 }

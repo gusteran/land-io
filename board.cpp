@@ -4,7 +4,7 @@ Board::Board() { generateSpawnLocation(); }
 
 void Board::generateSpawnLocation() {
     const int NUM_SPAWN_LOCATIONS = MAX_PLAYERS * 2;
-    
+
     int playersPerWall = (NUM_SPAWN_LOCATIONS + 3) / 4;
     int rowInc = ROWS / playersPerWall;
     int colInc = COLS / playersPerWall;
@@ -28,8 +28,10 @@ void Board::generateSpawnLocation() {
 
 bool Board::update() {
     for (Player *p : players) {
-        if (!p->update())
-            return false;
+        if (!p->update(field)){
+            // TODO: kill the bot
+            std::cout << "Player " << p->getName() << " died." << std::endl;
+        }
     }
     return true;
 }
@@ -48,19 +50,19 @@ bool Board::spawnPlayer(Player *p) {
             field[i][j].changeValue(p->getID());
         }
     }
-    
+
     p->setLocation(location);
     return true;
 }
 
 void Board::printBoard() {
-    std::cout << "spawn locations: " ;
+    std::cout << "spawn locations: ";
     for (int i = 0; i < spawnLocations.size(); i++) {
         std::cout << "(" << spawnLocations[i].first << ", "
                   << spawnLocations[i].second << "), ";
     }
     std::cout << std::endl;
-    std::cout << "player locations: " ;
+    std::cout << "player locations: ";
     for (int i = 0; i < players.size(); i++) {
         std::cout << "(" << players[i]->getLocation().first << ", "
                   << players[i]->getLocation().second << "), ";

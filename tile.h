@@ -10,6 +10,7 @@ class Tile {
     bool changeValue(short id);
     void reset();
     void printTile();
+    bool isTrail(){return isStep;}
 
   private:
     short value;

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "bot.h"
 #include "constants.h"
 #include "player.h"
-#include "bot.h"
 #include "tile.h"
 #include <algorithm>
 #include <random>
