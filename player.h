@@ -6,6 +6,11 @@
 // Abstact class to define the player interface
 class Player {
 public:
+bool update();
+
+private:
+bool move();
+bool turn(Direction direction);
     
 };
 

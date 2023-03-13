@@ -2,6 +2,9 @@
 #define __BOARD__
 
 #include "constants.h"
+#include "player.h"
+#include <algorithm>
+#include <vector>
 
 class Board {
 public:
@@ -9,7 +12,8 @@ public:
   bool update();
 
 private:
-  short * field[ROWS][COLS];
+  short field[ROWS][COLS];
+  std::vector<Player*> players;
 };
 
 
