@@ -1,16 +1,21 @@
-#ifndef __PLAYER__
-#define __PLAYER__
+#pragma once
 
 #include "constants.h"
+#include <string>
 
 // Abstact class to define the player interface
 class Player {
   public:
-    bool update();
+    virtual bool update() = 0;
+    virtual ~Player() {}
+    short getID() {return id;}
+    std::pair<int, int> getLocation() {return location;}
+    virtual void setLocation(std::pair<int, int> location) {this->location = location;};
 
-  private:
-    bool move();
-    bool turn(Direction direction);
+  protected:
+    short id;
+    std::string name;
+    Direction direction;
+    std::pair<int, int> location;
+    virtual bool move() = 0;
 };
-
-#endif

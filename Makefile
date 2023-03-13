@@ -1,8 +1,8 @@
 CC = clang++
-CFLAGS = -Weverything
+CFLAGS = -Wall
 BIN = land-server
 
-$(BIN): driver.o board.o tile.o
+$(BIN): main.o driver.o board.o tile.o bot.o
 	$(CC) $^ -o $@
 %.o: %.cpp *.h
 	$(CC) -c $< -o $@ $(CFLAGS)
