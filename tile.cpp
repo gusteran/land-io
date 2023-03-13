@@ -7,13 +7,15 @@ void Tile::reset() {
     this->isStep = false;
 }
 
-bool Tile::stepOn(short id) {
+MoveResult Tile::stepOn(short id) {
     // TODO: Implement evaluation of whether a player can step on this tile
     if (this->isStep)
-        return false;
-    this->isStep = this->value != id;
+        return MoveResult::DEATH;
+    if(this->value == id)
+        return MoveResult::COMPLETE;
+    this->isStep = true;
     this->value = id;
-    return true;
+    return MoveResult::STEP;
 }
 
 bool Tile::changeValue(short id) {

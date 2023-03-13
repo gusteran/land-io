@@ -6,7 +6,7 @@
 class Tile {
   public:
     Tile();
-    bool stepOn(short id);
+    MoveResult stepOn(short id);
     bool changeValue(short id);
     void reset();
     void printTile();

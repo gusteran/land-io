@@ -8,3 +8,6 @@
 
 #define DIRECTIONS 5
 enum Direction { NORTH, EAST, SOUTH, WEST, STOPPED };
+
+#define MOVE_RESULT 4
+enum MoveResult { IDLE, DEATH, STEP, COMPLETE};

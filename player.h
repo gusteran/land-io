@@ -7,7 +7,7 @@
 // Abstact class to define the player interface
 class Player {
   public:
-    virtual bool update(Tile (&field)[ROWS][COLS]) = 0;
+    virtual MoveResult update(Tile (&field)[ROWS][COLS]) = 0;
     virtual ~Player() {}
     short getID() { return id; }
     std::string getName() { return name; }
@@ -21,7 +21,7 @@ class Player {
     std::string name;
     Direction direction;
     std::pair<int, int> location;
-    virtual bool move(Tile (&field)[ROWS][COLS]) = 0;
+    virtual MoveResult move(Tile (&field)[ROWS][COLS]) = 0;
     bool facingWall() {
         switch (direction) {
         case NORTH:

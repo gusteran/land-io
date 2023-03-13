@@ -28,9 +28,11 @@ void Board::generateSpawnLocation() {
 
 bool Board::update() {
     for (Player *p : players) {
-        if (!p->update(field)){
-            // TODO: kill the bot
-            std::cout << "Player " << p->getName() << " died." << std::endl;
+        MoveResult res = p->update(field);
+        if(res == MoveResult::DEATH){
+            //TODO: kill player
+        } else if(res == MoveResult::COMPLETE){
+            //TODO: complete their territory
         }
     }
     return true;

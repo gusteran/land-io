@@ -6,16 +6,16 @@ Bot::Bot(short id, std::string name) {
     this->direction = STOPPED;
 }
 
-bool Bot::update(Tile (&field)[ROWS][COLS]) {
+MoveResult Bot::update(Tile (&field)[ROWS][COLS]) {
     pickMove(field);
     return move(field);
 }
 
 // Returns true if legal move, returns false if they die
-bool Bot::move(Tile (&field)[ROWS][COLS]) {
+MoveResult Bot::move(Tile (&field)[ROWS][COLS]) {
     if (facingWall()){
         std::cout << "bot "<< id << " is facing a wall" << std::endl;
-        return true;
+        return MoveResult::IDLE;
     }
     switch (direction) {
     case NORTH:
@@ -31,7 +31,7 @@ bool Bot::move(Tile (&field)[ROWS][COLS]) {
         location.first--;
         break;
     case STOPPED:
-        break;
+        return MoveResult::IDLE;
     };
     return field[location.first][location.second].stepOn(id);
 }
