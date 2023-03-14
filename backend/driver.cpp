@@ -1,6 +1,6 @@
 #include "driver.h"
 
-int startGameClock() {
+void *startGameClock(void *arg) {
     auto start = std::chrono::steady_clock::now();
     Board board;
     short botId = 1;
@@ -26,12 +26,12 @@ int startGameClock() {
 
         if (time > GAME_DURATION) {
             std::cout << "Game Over!\n";
-            return 0;
+            return nullptr;
         }
 
         if (!board.update()) {
             std::cout << "Board update failed\n";
-            return -1;
+            return nullptr;
         }
 
         board.printBoard();
@@ -47,7 +47,7 @@ int startGameClock() {
         std::this_thread::sleep_for(
             std::chrono::milliseconds(SLEEP_TIME - time));
     }
-    return 0;
+    return nullptr;
 }
 
 // Using this article:

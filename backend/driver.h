@@ -16,5 +16,5 @@
 #include <thread>
 #include <unistd.h> //close
 
-int startGameClock();
+void *startGameClock(void *);
 void handleSocket();
