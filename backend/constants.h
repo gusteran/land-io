@@ -4,7 +4,7 @@
 #define COLS 16
 #define MAX_PLAYERS 3
 #define SLEEP_TIME 500     // ms
-#define GAME_DURATION 5000 // ms
+#define GAME_DURATION 1000 // ms
 
 #define DIRECTIONS 5
 enum Direction { NORTH, EAST, SOUTH, WEST, STOPPED };

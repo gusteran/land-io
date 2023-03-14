@@ -92,8 +92,8 @@ void handleSocket() {
 
     // type of socket
     address.sin_family = AF_INET;
-    address.sin_port = htons(PORT);
     address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(PORT);
 
     // binds the socket to the port specified
     if (bind(master_socket, (struct sockaddr *)&address, sizeof(address)) < 0) {
@@ -137,6 +137,12 @@ void handleSocket() {
             }
         }
 
+        activity = select(max_sd + 1, &readfds, NULL, NULL, NULL);
+        if ((activity < 0) && (errno != EINTR)) {
+            std::cerr << "select failed" << std::endl;
+            return;
+        }
+
         // handles incoming connections
         if (FD_ISSET(master_socket, &readfds)) {
             if ((new_socket = accept(master_socket, (struct sockaddr *)&address,
@@ -170,6 +176,9 @@ void handleSocket() {
         // handles IO from other clients
         for (i = 0; i < MAX_CLIENTS; i++) {
             sd = client_socket[i];
+            // if (sd > 0) {
+            //     std::cout << "Client " << i << " connected" << std::endl;
+            // }
 
             if (FD_ISSET(sd, &readfds)) {
                 // reads the message and checks if it is closing connection
@@ -191,5 +200,6 @@ void handleSocket() {
                 }
             }
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
