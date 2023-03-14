@@ -1,2 +1,2 @@
 *.o
-land-server
+backend/land-server
