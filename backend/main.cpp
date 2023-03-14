@@ -22,8 +22,5 @@ int main(void) {
 
         startGameClock();
     }
-    for (int i = 0; i < 10; i++) {
-        std::cout << "awaiting anything" << std::endl;
-        sleep(1);
-    }
+    handleSocket();
 }
