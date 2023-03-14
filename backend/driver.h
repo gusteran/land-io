@@ -7,4 +7,4 @@
 #include <stdio.h>
 #include <thread>
 
-int startGameClock();
+void *startGameClock(void *);
