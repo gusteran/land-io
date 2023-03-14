@@ -3,7 +3,7 @@ CFLAGS = -Wall
 BIN = land-server
 
 $(BIN): main.o driver.o board.o tile.o bot.o
-	$(CC) $^ -o $@
+	$(CC) -lpthread $^ -o $@
 %.o: %.cpp %.h
 	$(CC) -c $< -o $@ $(CFLAGS)
 format:
