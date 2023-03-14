@@ -1,9 +1,9 @@
 CC = clang++
-CFLAGS = -Wall
+CFLAGS = -Wall 
 BIN = land-server
 
 $(BIN): main.o driver.o board.o tile.o bot.o
-	$(CC) -lpthread $^ -o $@
+	$(CC) -lpthread -lcrypto -lssl $^ -o $@
 main.o: main.cpp
 	$(CC) -c $< -o $@ $(CFLAGS)
 %.o: %.cpp %.h

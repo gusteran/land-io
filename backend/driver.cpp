@@ -70,7 +70,11 @@ void handleSocket() {
     // set of socket descriptors
     fd_set readfds;
 
-    std::string message = "ECHO Land IO v0.1 \r\n";
+    std::string message = "HTTP/1.1 101 Switching Protocols \
+        Upgrade: websocket \
+        Connection: Upgrade \
+        Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk= \
+        Sec-WebSocket-Protocol: chat";
 
     // Initialize all client sockets
     for (i = 0; i < MAX_CLIENTS; i++) {
@@ -156,11 +160,11 @@ void handleSocket() {
                       << ntohs(address.sin_port) << std::endl;
 
             // sends the acknowledge message
-            if (send(new_socket, message.c_str(), message.length(), 0) !=
-                message.length()) {
-                std::cerr << "Send failed" << std::endl;
-                return;
-            }
+            // if (send(new_socket, message.c_str(), message.length(), 0) !=
+            //     message.length()) {
+            //     std::cerr << "Send failed" << std::endl;
+            //     return;
+            // }
 
             puts("Connection accepted and acknowledged");
 
@@ -197,6 +201,59 @@ void handleSocket() {
                     // prints the incoming message
                     buffer[valread] = '\0';
                     std::cout << buffer << std::endl;
+                    // for(int j = 0; j < 8; j++) {
+                    //     unsigned char bits1 = 0, bits2 = 0;
+                    //     for(int k = 0; k < valread; k++) {
+                    //         bits2 = buffer[k] & 0x07;
+                    //         buffer[k] >>= 3;
+                    //         buffer[k] |= bits1 << 5;
+                    //         bits1 = bits2;
+                    //     }
+                    //     buffer[valread] = '\0';
+                    //     std::cout << (buffer + j) << std::endl;
+                    // }
+
+                    
+
+                    std::string recv = std::string(buffer);
+                    if (recv.find("Sec-WebSocket-Key:") != std::string::npos) {
+                        std::string key = recv.substr(
+                            recv.find("Sec-WebSocket-Key:") + 19, 24);
+                        // key = "dGhlIHNhbXBsZSBub25jZQ==";
+                        int resSize = key.size()-4; // magic?
+                        key += "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+                        std::cout << "Sec-WebSocket-Key: " << key << std::endl;
+
+                        // base64_encode(SHA1(key.c_str()));
+                        unsigned char balls[key.size()]; // might need larger balls
+                        auto d = (const unsigned char *)key.c_str();
+                        std::cout << "size of the encoded key: "
+                                  << strlen(key.c_str())
+                                  << " balls " << d
+                                  << std::endl;
+                        SHA1(d, key.size(), balls);
+                        // std::string balls2 = std::string(balls); // now we
+                        // have a pair. Hopefully the same size.
+                        auto b64 = base64_encode(
+                            balls, resSize); // double-checking balls size
+                        std::cout << "base64_encode: " << b64.c_str() << std::endl;
+                        std::string res =
+                            "HTTP/1.1 101 Switching Protocols \r\n";
+                        res += "Connection: Upgrade \r\n";
+                        res += "Upgrade: websocket \r\n";
+                        res += "Sec-WebSocket-Accept: " + b64 + "\r\n\r\n";
+
+                        if (send(sd, res.c_str(), res.length(), 0) !=
+                            res.length()) {
+                            std::cerr << "Send failed" << std::endl;
+                            return;
+                        }
+                        // C# implementation of this thing
+                        // byte[] swkaSha1 =
+                        // System.Security.Cryptography.SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(swka));
+                        // string swkaSha1Base64 =
+                        // Convert.ToBase64String(swkaSha1);
+                    }
                 }
             }
         }

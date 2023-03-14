@@ -1,19 +1,19 @@
-// const { createConnection } = require("net");
+const socket = new WebSocket('ws://localhost:8888');
 
-const socket = new WebSocket('localhost:8888');
+socket.onopen = (event) => {
+	console.log(event);
+	socket.send("Here's some text that the server is urgently awaiting!");
+};
 
-socket.addEventListener('open', (event) => {
-    socket.send('Hello Server!');
-});
-
-// Listen for messages
-socket.addEventListener('message', (event) => {
-    console.log('Message from server ', event.data);
-});
+socket.onmessage = (event) => {
+	console.log(event.data);
+}
 
 function join(){
-    socket.send('Join');
+	socket.send("Join!");
+
 }
+
 function close(){
-    socket.send('Close');
+	socket.close();
 }
