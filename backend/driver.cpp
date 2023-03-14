@@ -138,16 +138,20 @@ void handleSocket() {
         }
 
         // handles incoming connections
-        if(FD_ISSET(master_socket, &readfds)) {
-            if((new_socket = accept(master_socket, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+        if (FD_ISSET(master_socket, &readfds)) {
+            if ((new_socket = accept(master_socket, (struct sockaddr *)&address,
+                                     (socklen_t *)&addrlen)) < 0) {
                 std::cerr << "Accept failed" << std::endl;
                 return;
             }
 
-            std::cout << "Accepted connection on socket " << new_socket << " from " << inet_ntoa(address.sin_addr) << ":" << ntohs(address.sin_port) << std::endl;
+            std::cout << "Accepted connection on socket " << new_socket
+                      << " from " << inet_ntoa(address.sin_addr) << ":"
+                      << ntohs(address.sin_port) << std::endl;
 
             // sends the acknowledge message
-            if(send(new_socket, message.c_str(), message.length(), 0) != message.length()) {
+            if (send(new_socket, message.c_str(), message.length(), 0) !=
+                message.length()) {
                 std::cerr << "Send failed" << std::endl;
                 return;
             }
@@ -156,24 +160,26 @@ void handleSocket() {
 
             for (i = 0; i < MAX_CLIENTS; i++) {
                 // adds the client if the socket is empty
-                if(client_socket[i] == 0) {
+                if (client_socket[i] == 0) {
                     client_socket[i] = new_socket;
                     break;
                 }
             }
-
         }
 
         // handles IO from other clients
-        for(i = 0; i < MAX_CLIENTS; i++) {
+        for (i = 0; i < MAX_CLIENTS; i++) {
             sd = client_socket[i];
 
-            if(FD_ISSET(sd, &readfds)) {
+            if (FD_ISSET(sd, &readfds)) {
                 // reads the message and checks if it is closing connection
-                if((valread = read(sd, buffer, BUFFER_SIZE)) == 0){
+                if ((valread = read(sd, buffer, BUFFER_SIZE)) == 0) {
                     // handles the disconnect
-                    getpeername(sd, (struct sockaddr *)&address, (socklen_t *) &addrlen);
-                    std::cout << "Client disconnected from " << inet_ntoa(address.sin_addr) << ":" << ntohs(address.sin_port) << std::endl;
+                    getpeername(sd, (struct sockaddr *)&address,
+                                (socklen_t *)&addrlen);
+                    std::cout << "Client disconnected from "
+                              << inet_ntoa(address.sin_addr) << ":"
+                              << ntohs(address.sin_port) << std::endl;
 
                     // closes the  socket
                     close(sd);
